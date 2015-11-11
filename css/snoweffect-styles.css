@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+/* Imprt the fonts */
+@font-face {
+	font-family: "WWFlakes";
+	src: url('../font/WWFlakes.ttf') format("truetype");
+}
+
+body {
+	background-color: blue;
+}
+
+.snow-flakes {
+	font-family: "WWFlakes";
+	color: #fffafa;
+}
