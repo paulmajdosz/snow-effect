@@ -69,7 +69,7 @@ function fallingSnow (i, defaultParams) {
 }
 
 (function ($) {
-	$.fn.snowing = function () {
+	$.fn.snowing = function (options) {
 		
 		var defaultParams = {
 				numberOfElements: 50,
@@ -79,11 +79,14 @@ function fallingSnow (i, defaultParams) {
 				maxSpeed: 30000,
 				maxDeviation: 0.2,
 				rotationInterval: 100,
-				rotationRatio: 0.5
+				rotationRatio: 0.5,
+				zIndex: 0
 		};
 		
+		var params = $.extend(defaultParams, options);
+				
 		// create the basic elements
-		for(var i=0; i < defaultParams.numberOfElements; i++){
+		for(var i=0; i < params.numberOfElements; i++){
 			$(this).append ('<div><span class="snow-flakes"></span></div>');
 		}
 		
@@ -91,16 +94,17 @@ function fallingSnow (i, defaultParams) {
 		$('div .snow-flakes').each(function() {
 			$(this).parent().css({
 				'position':'absolute',
-				'top':'-'+defaultParams.maxSnowSize+'px',
-				'left':'0px'
+				'top':'-'+params.maxSnowSize+'px',
+				'left':'0px',
+				'z-index':params.zIndex
 				});
 		});
 		
 		// The rotation effect
-		if (defaultParams.rotationRatio > 0) {
-			for (var i=0; i < defaultParams.numberOfElements; i += Math.floor(1/defaultParams.rotationRatio) ) {
+		if (params.rotationRatio > 0) {
+			for (var i=0; i < params.numberOfElements; i += Math.floor(1/params.rotationRatio) ) {
 				self = $('div .snow-flakes').eq(i).parent();
-				setInterval(setRotate(self), defaultParams.rotationInterval);
+				setInterval(setRotate(self), params.rotationInterval);
 			}
 		}
 		
@@ -117,11 +121,11 @@ function fallingSnow (i, defaultParams) {
 			
 			// set the snow flake
 			$(this).html('&#'+( 33 + Math.floor( (123-33) * Math.random() ) )+';')
-				.css('font-size', ( defaultParams.minSnowSize + Math.floor( (defaultParams.maxSnowSize - defaultParams.minSnowSize) * Math.random() ) )+'px');
+				.css('font-size', ( params.minSnowSize + Math.floor( (params.maxSnowSize - params.minSnowSize) * Math.random() ) )+'px');
 			
 			// left or right deviation
 			var direction = Math.random();
-			var deviation = defaultParams.maxDeviation * Math.random() * leftStartPosition;
+			var deviation = params.maxDeviation * Math.random() * leftStartPosition;
 			var endLeftPosition = leftStartPosition;
 			
 			if (direction <= 0.5)
@@ -140,13 +144,15 @@ function fallingSnow (i, defaultParams) {
 					top: 0.9*wHeight + 'px',
 					left: endLeftPosition + 'px'
 				},
-				defaultParams.minSpeed + Math.floor( (defaultParams.maxSpeed - defaultParams.minSpeed) * Math.random() ),
+				params.minSpeed + Math.floor( (params.maxSpeed - params.minSpeed) * Math.random() ),
 				function() { 
-					fallingSnow (this, defaultParams);
+					fallingSnow (this, params);
 				} ) ;
 			
 			
 		});
 		
+		// return this
+		return this;
 	};
 }) (jQuery) ;
