@@ -6,10 +6,6 @@
 	src: url('../font/WWFlakes.ttf') format("truetype");
 }
 
-body {
-	background-color: blue;
-}
-
 .snow-flakes {
 	font-family: "WWFlakes";
 	color: #fffafa;
